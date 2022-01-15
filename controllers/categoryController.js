@@ -26,6 +26,15 @@ exports.getCategories = async (req, res) => {
 // @access      Private
 exports.addCategory = asyncHandler( async (req, res, next) => {
     req.body.category === "Novato Masculino" || "Novato Femenino"|| "Escalado Masculino"|| "Escalado Femenino"|| "Avanzado Masculino"|| "Avanzado Femenino"|| "RX'd Masculino";
+    const categories = await Category.find(req.category).count(res.category);
+    if(categories > 2) {
+        return next(
+            new ErrorResponse(
+                `No hay cupos para esta categoria`,
+                401
+            )
+        );
+    }
     if(req.body.category) {
         try {
             const category = await Category.create(req.body);

@@ -24,7 +24,6 @@ exports.getUsers = async (req, res) => {
 // @route       POST /api/users
 // @access      public
 exports.createUser = async (req, res) => {
-
     //Check out for errors
     const err = validationResult(req);
     if(!err.isEmpty()) {
@@ -34,11 +33,32 @@ exports.createUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        //check out if the user register is unique
-        let user = await User.findOne({ email });
+        // check out if the user register is unique
+        // let user = await User.findOne({ email });
 
-        if(user) {
-            return res.status(400).json({ msg: 'User already exists'})
+        let user = await User.aggregate([{ $match: { category: req.body.category }}]);
+        console.log(user)
+
+        if(user.length > 19 && "Novato Masculino") {
+            return res.status(400).json({ msg: `Categoria ${req.body.category} agotada`})
+        };
+        if (user.length > 19 && "Novato Femenino") {
+            return res.status(400).json({ msg: `Categoria ${req.body.category} agotada`})
+        };
+        if (user.length > 19 && "Escalado Masculino") {
+            return res.status(400).json({ msg: `Categoria ${req.body.category} agotada`})
+        };
+        if(user.length > 19 && "Escalado Femenino") {
+            return res.status(400).json({ msg: `Categoria ${req.body.category} agotada`})
+        };
+        if (user.length > 9 && "Avanzado Masculino") {
+            return res.status(400).json({ msg: `Categoria ${req.body.category} agotada`})
+        };
+        if (user.length > 9 && "Avanzado Femenino") {
+            return res.status(400).json({ msg: `Categoria ${req.body.category} agotada`})
+        };
+        if (user.length > 9 && "RX'd Masculino") {
+            return res.status(400).json({ msg: `Categoria ${req.body.category} agotada`})
         };
 
         //Create new user
@@ -71,4 +91,4 @@ exports.createUser = async (req, res) => {
         console.log(err);
         res.status(400).send('There was a mistake');
     }
-}
+};
