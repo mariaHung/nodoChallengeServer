@@ -4,6 +4,13 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 const { check } = require('express-validator');
 
+// @desc        Get all users
+// @route       GET /api/users
+// @access      Public
+router.get('/',
+    userController.getUsers
+);
+
 // @desc        Create user
 // @route       POST /api/users
 // @access      Public

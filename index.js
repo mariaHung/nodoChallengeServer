@@ -18,6 +18,7 @@ app.use( express.json({ extended: true }));
 const PORT = process.env.PORT || 4000;
 
 //import Routes
+app.use('/api/categories', require('./routes/categories'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 

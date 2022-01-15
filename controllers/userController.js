@@ -3,6 +3,26 @@ const bcryptjs = require('bcryptjs');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 
+// @desc        Get all users
+// @route       GET /api/users
+// @access      public
+exports.getUsers = async (req, res) => {
+    try {
+        const users = await User.find(req.user);
+        res.status(200).json({
+            success: true,
+            count: users.length,
+            data: users
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('There was a mistake');
+    }
+};
+
+// @desc        Create user
+// @route       POST /api/users
+// @access      public
 exports.createUser = async (req, res) => {
 
     //Check out for errors

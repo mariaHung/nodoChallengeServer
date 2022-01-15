@@ -14,8 +14,11 @@ const UsersSchema = mongoose.Schema({
     email: {
         type: String,
         required: true,
-        trim: true,
-        unique: true
+        unique: true,
+        match: [
+            /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+            'Please add a valid email'
+        ]
     },
     password: {
         type: String,
@@ -25,7 +28,16 @@ const UsersSchema = mongoose.Schema({
     category: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        enum: [
+            "Novato Masculino",
+            "Novato Femenino",
+            "Escalado Masculino",
+            "Escalado Femenino",
+            "Avanzado Masculino",
+            "Avanzado Femenino",
+            "RX'd Masculino",
+        ]
     },
     payment: {
         type: String,
