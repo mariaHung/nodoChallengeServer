@@ -3,12 +3,14 @@ const express = require('express')
 const router = express.Router();
 const userController = require('../controllers/userController');
 const { check } = require('express-validator');
+const advancedResults = require('../middleware/advancedResults');
+const User = require('../models/User');
 
 // @desc        Get all users
 // @route       GET /api/users
 // @access      Public
 router.get('/',
-    userController.getUsers
+    advancedResults(User), userController.getUsers
 );
 
 // @desc        Create user

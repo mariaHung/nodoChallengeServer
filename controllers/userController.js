@@ -7,17 +7,29 @@ const jwt = require('jsonwebtoken');
 // @route       GET /api/users
 // @access      public
 exports.getUsers = async (req, res) => {
-    try {
-        const users = await User.find(req.user);
+    let query;
+    let queryStr = JSON.stringify( req.query );
+    queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
+    query = User.find(JSON.parse(queryStr));
+
+    const users = await query;
         res.status(200).json({
             success: true,
             count: users.length,
             data: users
         });
-    } catch (err) {
-        console.log(err);
-        res.status(500).send('There was a mistake');
-    }
+    // try {
+    //     const users = await User.find(req.user);
+    //     res.status(200).json({
+    //         success: true,
+    //         count: users.length,
+    //         data: users
+    //     });
+    //     res.status(200).json(res.advancedResults);
+    // } catch (err) {
+    //     console.log(err);
+    //     res.status(500).send('There was a mistake');
+    // }
 };
 
 // @desc        Create user
@@ -51,15 +63,15 @@ exports.createUser = async (req, res) => {
         if(user.length > 19 && "Escalado Femenino") {
             return res.status(400).json({ msg: `Categoria ${req.body.category} agotada`})
         };
-        if (user.length > 9 && "Avanzado Masculino") {
-            return res.status(400).json({ msg: `Categoria ${req.body.category} agotada`})
-        };
-        if (user.length > 9 && "Avanzado Femenino") {
-            return res.status(400).json({ msg: `Categoria ${req.body.category} agotada`})
-        };
-        if (user.length > 9 && "RX'd Masculino") {
-            return res.status(400).json({ msg: `Categoria ${req.body.category} agotada`})
-        };
+        // if (user.length > 9 && "Avanzado Masculino") {
+        //     return res.status(400).json({ msg: `Categoria ${req.body.category} agotada`})
+        // };
+        // if (user.length > 9 && "Avanzado Femenino") {
+        //     return res.status(400).json({ msg: `Categoria ${req.body.category} agotada`})
+        // };
+        // if (user.length > 9 && "RX'd Masculino") {
+        //     return res.status(400).json({ msg: `Categoria ${req.body.category} agotada`})
+        // };
 
         //Create new user
         user = new User(req.body);
